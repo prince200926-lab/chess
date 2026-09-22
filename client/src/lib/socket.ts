@@ -1,13 +1,15 @@
 import { io, Socket } from 'socket.io-client';
 import type { ClientToServerEvents, ServerToClientEvents } from '../types';
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL || 'http://localhost:3001';
+
 type TypedSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 
 let socket: TypedSocket | null = null;
 
 export const getSocket = (): TypedSocket => {
   if (!socket) {
-    socket = io({
+    socket = io(SERVER_URL, {
       autoConnect: false,
       transports: ['websocket', 'polling'],
     });

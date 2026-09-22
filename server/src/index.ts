@@ -20,15 +20,21 @@ import type {
   SocketData,
 } from './types';
 
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
+
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: [CLIENT_URL, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+  methods: ['GET', 'POST'],
+  credentials: true,
+}));
 app.use(express.json());
 
 const httpServer = createServer(app);
 
 const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(httpServer, {
   cors: {
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: [CLIENT_URL, 'http://localhost:3000', 'http://127.0.0.1:3000'],
     methods: ['GET', 'POST'],
     credentials: true,
   },
