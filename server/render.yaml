@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: chess-tutor-server
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CLIENT_URL
+        sync: false
+      - key: PORT
+        value: "10000"
